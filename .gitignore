@@ -16,6 +16,9 @@ node_modules
 # Generated dirs
 dist
 
+# Playground
+playground
+
 # Nuxt
 .nuxt
 .output
