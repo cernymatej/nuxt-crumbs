@@ -29,15 +29,7 @@ type DefineBreadcrumbsCallback = (ctx: DefineBreadcrumbsContext) => DefineBreadc
 
 type DefineBreadcrumbsInput = DefineBreadcrumbsCallback | DefineBreadcrumbsValue
 
-export interface DefineBreadcrumbs {
-  (input: DefineBreadcrumbsInput): void
-  /**
-   * The real implementation. `defineBreadcrumbs` is a compiler macro: the
-   * build-time transform rewrites valid root-level calls to `defineBreadcrumbs._(…)`.
-   * @internal
-   */
-  _: (input: DefineBreadcrumbsInput) => void
-}
+type DefineBreadcrumbs = (input: DefineBreadcrumbsInput) => void
 
 /**
  * Define a dynamic breadcrumb for the current page or transform the whole breadcrumb trail.
@@ -51,8 +43,6 @@ export const defineBreadcrumbs: DefineBreadcrumbs = ((_input: DefineBreadcrumbsI
   )
 }) as DefineBreadcrumbs
 
-// `_` is the internal implementation the build transform rewrites calls to;
-// hide it from enumeration since it is not part of the public surface.
 Object.defineProperty(defineBreadcrumbs, '_', {
   enumerable: false,
   value: function defineBreadcrumbsImpl(input: DefineBreadcrumbsInput): void {
