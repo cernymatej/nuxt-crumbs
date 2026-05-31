@@ -1,6 +1,6 @@
 {
   "name": "nuxt-crumbs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A Nuxt module for managing breadcrumbs.",
   "repository": {
     "type": "git",
