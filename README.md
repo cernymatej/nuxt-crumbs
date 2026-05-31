@@ -14,7 +14,7 @@ A unified way to manage breadcrumbs in your Nuxt app. Define each breadcrumb on 
 - 🗺️ &nbsp;breadcrumbs generated automatically from your route hierarchy
 - ⚡️ &nbsp;set crumb labels from fetched data with `defineBreadcrumbs`
 - 🎨 &nbsp;fully customizable: bring your own markup and styling
-- 🪶 &nbsp;lightweight and dependency-free
+- 🪶 &nbsp;lightweight and performant
 - 🌐 &nbsp;SSR-safe out of the box
 - 💪 &nbsp;fully typed, with support for augmentation
 
@@ -84,7 +84,7 @@ defineBreadcrumbs(({ crumbs }) => {
       }
       return crumb
     }),
-    // append the the leaf crumb
+    // append the leaf crumb
     { label: product.value.name },
   ]
 })
@@ -98,8 +98,9 @@ Use the `<NuxtCrumbs>` component to render the trail. It iterates over the resol
 <template>
   <nav aria-label="Breadcrumb">
     <ul>
-      <NuxtCrumbs v-slot="{ crumb }">
+      <NuxtCrumbs v-slot="{ crumb, index }">
         <li>
+          <span v-if="index" aria-hidden="true">›</span>
           <NuxtLink :to="crumb.to">{{ crumb.label }}</NuxtLink>
         </li>
       </NuxtCrumbs>
@@ -108,13 +109,48 @@ Use the `<NuxtCrumbs>` component to render the trail. It iterates over the resol
 </template>
 ```
 
-Each `crumb` exposed by the slot is a resolved breadcrumb:
+The slot receives:
+
+| Slot prop | Type                | Description                                  |
+| --------- | ------------------- | -------------------------------------------- |
+| `crumb`   | `BreadcrumbResolved`| The resolved breadcrumb (see below).         |
+| `index`   | `number`            | The crumb's zero-based position in the trail.|
+
+Each `crumb` is a resolved breadcrumb:
 
 | Property    | Type                       | Description                                     |
 | ----------- | -------------------------- | ----------------------------------------------- |
 | `label`     | `string`                   | The text to display.                            |
 | `to`        | `RouteLocationRaw`         | A route location ready to pass to `<NuxtLink>`. |
 | `routeName` | `string \| symbol \| null` | The name of the route the crumb points to.      |
+
+### Custom crumb data
+
+Sometimes a label isn't enough, you also want an icon, or some other flag to travel with each crumb. Augment the `Breadcrumb` interface through the `#crumbs` module and your extra fields flow through the whole pipeline, fully typed: from where you define them all the way to the render slot.
+
+```ts
+// index.d.ts
+declare module '#crumbs' {
+  interface Breadcrumb {
+    icon?: string
+  }
+}
+
+export {}
+```
+
+Set the extra data wherever you define a crumb, both `definePageMeta` and `defineBreadcrumbs` accept it:
+
+```vue
+<script setup lang="ts">
+definePageMeta({
+  breadcrumb: { label: 'About', icon: 'i-lucide-info' },
+})
+
+// or from the macro
+defineBreadcrumbs({ label: post.value.title, icon: 'i-lucide-file' })
+</script>
+```
 
 ## 🧑‍💻 Contributing
 
