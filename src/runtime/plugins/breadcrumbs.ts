@@ -2,6 +2,7 @@ import { shallowRef } from 'vue'
 import { defineNuxtPlugin, useNuxtApp } from '#app'
 import type { BreadcrumbResolved, BreadcrumbsContext } from '../types/crumbs'
 import { computeBreadcrumbs, resolveBreadcrumb } from '../utils/crumbs'
+import { onPageLoaded } from '../composables/on-page-loaded'
 import { useRoute, useRouter, useState } from '#imports'
 
 export const useSyncedBreadcrumbs = () => useState<BreadcrumbResolved[] | null>('_crumbs', () => null)
@@ -55,7 +56,7 @@ export default defineNuxtPlugin({
       __crumbs.unsynced.value = null
     })
 
-    nuxtApp.hook('page:finish', __crumbs.sync)
+    onPageLoaded(__crumbs.sync)
     if (import.meta.server) {
       __crumbs.sync()
     }
