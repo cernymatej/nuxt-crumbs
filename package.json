@@ -1,7 +1,7 @@
 {
   "name": "nuxt-crumbs",
   "version": "0.0.0",
-  "description": "A Nuxt module for managing breadcrumbs.",
+  "description": "Effortless, SSR-ready breadcrumbs for your Nuxt app.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cernymatej/nuxt-crumbs.git"
@@ -26,7 +26,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build build",
+    "prepack": "nuxt-module-build prepare 1>&2 && nuxt-module-build build 1>&2",
     "dev": "npm run dev:prepare && nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
