@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBreadcrumbs } from '../composables/breadcrumbs'
+import { useBreadcrumbs } from '../composables/use-breadcrumbs'
 
 defineOptions({
   inheritAttrs: false,
@@ -10,10 +10,10 @@ const { crumbs } = useBreadcrumbs()
 
 <template>
   <template
-    v-for="crumb in crumbs"
-    :key="crumb.routeName"
+    v-for="(crumb, index) in crumbs"
+    :key="`${crumb.label}${crumb.routeName ?? ''}`"
   >
-    <slot :crumb="crumb" />
+    <slot v-bind="{ crumb, index }" />
   </template>
 </template>
 

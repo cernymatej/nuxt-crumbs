@@ -18,9 +18,17 @@ export default defineNuxtPlugin({
 
     const synced = useSyncedBreadcrumbs()
 
+    // multiple pages in the matched route hierarchy can call `defineBreadcrumbs`
+    // and we need to wait for all of them to settle before resolving the SSR gate
+    let pending = import.meta.server
+      ? route.matched.filter(r => r.meta.__crumbsDynamic).length
+      : 0
+
     const __crumbs: BreadcrumbsContext = {
       promise,
-      resolve,
+      settle: () => {
+        if (--pending <= 0) resolve()
+      },
       unsynced: shallowRef(null),
       sync: () => {
         if (Array.isArray(__crumbs.unsynced.value)) {
@@ -38,6 +46,10 @@ export default defineNuxtPlugin({
         synced.value = crumbsFromMeta
       },
     }
+
+    // open the gate immediately when there is nothing dynamic to wait for
+    // (and always on the client, where it is never awaited)
+    if (pending === 0) resolve()
 
     router.beforeEach(() => {
       __crumbs.unsynced.value = null

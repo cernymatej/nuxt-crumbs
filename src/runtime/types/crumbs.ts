@@ -4,12 +4,19 @@ import type { ShallowRef } from 'vue'
 
 export interface BreadcrumbsContext {
   promise: Promise<void>
-  resolve: () => void
+  /**
+   * Mark one matched page's `defineBreadcrumbs` as done. The SSR gate
+   * resolves once every dynamic page in the hierarchy has settled.
+   */
+  settle: () => void
   unsynced: ShallowRef<BreadcrumbResolved[] | Breadcrumb | null>
   sync: () => void
 }
 
 export interface CrumbsNuxtApp extends NuxtApp {
+  /**
+   * @internal
+   */
   __crumbs: BreadcrumbsContext
 }
 
@@ -25,9 +32,5 @@ export interface BreadcrumbResolved extends Breadcrumb {
 export type PageMetaBreadcrumb = string | Breadcrumb
 
 export interface PageMetaExtension {
-  /**
-   * Breadcrumb config for the page. Pass a string for the translation key,
-   * or an object to also configure linking behavior.
-   */
   breadcrumb?: PageMetaBreadcrumb
 }
