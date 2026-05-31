@@ -35,7 +35,10 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.typescript.tsConfig.include ||= []
     nuxt.options.typescript.tsConfig.include.push(resolve('./runtime/types/augments.d.ts'))
 
-    const defineBreadcrumbsSource = resolve('./runtime/composables/define-breadcrumbs')
+    nuxt.options.alias['#crumbs'] = resolve('./runtime/index.ts')
+    nuxt.options.alias['#crumbs/types'] = resolve('./runtime/types.ts')
+
+    const defineBreadcrumbsSource = resolve('./runtime/composables/define-breadcrumbs.ts')
 
     // file paths of every page
     const pagePaths = new Set<string>()
@@ -52,7 +55,7 @@ export default defineNuxtModule<ModuleOptions>({
       filePath: resolve('./runtime/components/NuxtCrumbs.vue'),
     })
 
-    addPlugin(resolve('./runtime/plugins/breadcrumbs'))
+    addPlugin(resolve('./runtime/plugins/breadcrumbs.ts'))
 
     nuxt.hook('pages:extend', async (pages) => {
       pagePaths.clear()

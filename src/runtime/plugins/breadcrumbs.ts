@@ -1,6 +1,7 @@
 import { shallowRef } from 'vue'
 import { defineNuxtPlugin, useNuxtApp } from '#app'
-import type { BreadcrumbResolved, BreadcrumbsContext } from '../types/crumbs'
+import type { BreadcrumbResolved } from '../types/crumbs'
+import type { BreadcrumbsContext } from '../types/internal'
 import { computeBreadcrumbs, resolveBreadcrumb } from '../utils/crumbs'
 import { onPageLoaded } from '../composables/on-page-loaded'
 import { useRoute, useRouter, useState } from '#imports'

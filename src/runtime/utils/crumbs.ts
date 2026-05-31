@@ -1,5 +1,6 @@
 import type { RouteLocationNormalizedLoaded, RouteLocationMatched } from 'vue-router'
-import type { BreadcrumbResolved, PageMetaBreadcrumb, PageMetaExtension } from '../types/crumbs'
+import type { BreadcrumbResolved } from '../types/crumbs'
+import type { PageMetaBreadcrumb, PageMetaExtension } from '../types/internal'
 
 export function resolveBreadcrumb(breadcrumb: PageMetaBreadcrumb | BreadcrumbResolved, route: RouteLocationNormalizedLoaded | RouteLocationMatched, current?: RouteLocationNormalizedLoaded): BreadcrumbResolved {
   if (typeof breadcrumb !== 'string' && 'to' in breadcrumb) {

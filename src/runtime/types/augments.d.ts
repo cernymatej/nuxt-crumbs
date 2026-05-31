@@ -1,4 +1,4 @@
-import type { PageMetaExtension } from './crumbs'
+import type { PageMetaExtension } from './internal'
 
 declare module '#app' {
   // eslint-disable-next-line

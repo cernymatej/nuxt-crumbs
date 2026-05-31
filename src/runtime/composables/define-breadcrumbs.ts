@@ -1,6 +1,7 @@
 import { getCurrentScope, computed, watch } from 'vue'
 import { useRoute, useNuxtApp } from '#imports'
-import type { Breadcrumb, BreadcrumbResolved, CrumbsNuxtApp } from '../types/crumbs'
+import type { Breadcrumb, BreadcrumbResolved } from '../types/crumbs'
+import type { CrumbsNuxtApp } from '../types/internal'
 import { computeBreadcrumbs, resolveBreadcrumb } from '../utils/crumbs'
 
 interface DefineBreadcrumbsContext {

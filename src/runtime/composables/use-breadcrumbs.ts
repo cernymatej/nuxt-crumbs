@@ -1,7 +1,8 @@
 import type { Ref } from 'vue'
 import { onServerPrefetch, computed } from 'vue'
 import { useNuxtApp } from '#imports'
-import type { BreadcrumbResolved, CrumbsNuxtApp } from '../types/crumbs'
+import type { BreadcrumbResolved } from '../types/crumbs'
+import type { CrumbsNuxtApp } from '../types/internal'
 import { useSyncedBreadcrumbs } from '../plugins/breadcrumbs'
 
 interface UseBreadcrumbsReturn {
