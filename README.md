@@ -92,14 +92,14 @@ defineBreadcrumbs(({ crumbs }) => {
 
 ### Rendering the trail
 
-Use the `<NuxtCrumbs>` component to render the trail. It iterates over the resolved crumbs and exposes each one through a scoped slot, so you can bring your own markup and styling:
+Use the `<NuxtCrumbs>` component to access the trail. It exposes the resolved crumbs array through its default slot, so you can bring your own markup and styling:
 
 ```vue
 <template>
   <nav aria-label="Breadcrumb">
     <ul>
-      <NuxtCrumbs v-slot="{ crumb, index }">
-        <li>
+      <NuxtCrumbs v-slot="{ crumbs }">
+        <li v-for="(crumb, index) in crumbs" :key="crumb.label">
           <span v-if="index" aria-hidden="true">›</span>
           <NuxtLink :to="crumb.to">{{ crumb.label }}</NuxtLink>
         </li>
@@ -111,10 +111,9 @@ Use the `<NuxtCrumbs>` component to render the trail. It iterates over the resol
 
 The slot receives:
 
-| Slot prop | Type                | Description                                  |
-| --------- | ------------------- | -------------------------------------------- |
-| `crumb`   | `BreadcrumbResolved`| The resolved breadcrumb (see below).         |
-| `index`   | `number`            | The crumb's zero-based position in the trail.|
+| Slot prop | Type                   | Description                          |
+| --------- | ---------------------- | ------------------------------------ |
+| `crumbs`  | `BreadcrumbResolved[]` | The resolved breadcrumb trail.       |
 
 Each `crumb` is a resolved breadcrumb:
 
